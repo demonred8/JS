@@ -1,21 +1,21 @@
 // Get Random user
-let userObj = {}
 
 document.getElementById('button').onclick = function () { getUser() };
 
+let userObj = {}
+
+async function getData() {
+  await fetch('https://randomuser.me/api/')
+    .then((response) => response.json())
+    .then(data => userObj = data['results'][0])
+}
+
 async function getUser() {
   let button = document.getElementById('button-text')
-  button.innerHTML = 'Loading...';
-  await $.ajax({
-    url: 'https://randomuser.me/api/',
-    dataType: 'json',
-    success: function (data) {
-      userObj = data['results'][0]
-    }
-  });
-  console.log(userObj)
+  button.innerHTML = 'Loading...'
+  await getData()
   await setData()
-  button.innerHTML = 'Next user';
+  button.innerHTML = 'Next user'
 }
 
 async function setData() {
@@ -33,6 +33,7 @@ async function setData() {
     `<p>City: ${userObj['location']['city']}</p>
    <p>Country: ${userObj['location']['country']}</p> 
    <p>State: ${userObj['location']['state']}</p>
+   <hr>
    <p>Street: </p>
    <p>Name: ${userObj['location']['street']['name']}</p>
    <p>Number: ${userObj['location']['street']['number']}</p>`
@@ -61,7 +62,7 @@ async function setData() {
   <p>Age: ${userObj['registered']['age']}</p>`
 
   let phone = document.getElementById('phone-text')
-  phone.innerHTML = 
-  `<p>Cell: ${userObj['cell']}
+  phone.innerHTML =
+    `<p>Cell: ${userObj['cell']}
   <p>Mobile: ${userObj['phone']}`
 }
