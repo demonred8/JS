@@ -20,25 +20,31 @@ async function getUser() {
 
 function setData() {
   document.getElementById('photo').src = userObj.picture.large
-  document.getElementById('gender-text').textContent = userObj.gender
-  document.getElementById('name-text').textContent = Object.values(userObj.name).join(' ')
-  document.getElementById('location-city').textContent = `City: ${userObj.location.city}`
-  document.getElementById('location-country').textContent = `Country: ${userObj.location.country}`
-  document.getElementById('location-state').textContent = `State: ${userObj.location.state}`
-  document.getElementById('location-street-name').textContent = `Name: ${userObj.location.street.name}`
-  document.getElementById('location-street-number').textContent = `Number: ${userObj.location.street.number}`
-  document.getElementById('email-text').textContent = userObj.email
-  document.getElementById('login-md5').textContent = `MD5: ${userObj.login.md5}`
-  document.getElementById('login-pass').textContent = `Password: ${userObj.login.password}`
-  document.getElementById('login-salt').textContent = `Salt: ${userObj.login.salt}`
-  document.getElementById('login-sha1').textContent = `SHA1: ${userObj.login.sha1}`
-  document.getElementById('login-sha256').textContent = `SHA256: ${userObj.login.sha256}`
-  document.getElementById('login-username').textContent = `Username: ${userObj.login.username}`
-  document.getElementById('login-uuid').textContent = `UUID: ${userObj.login.uuid}`
-  document.getElementById('birthday-date').textContent = `Date: ${userObj.dob.date}`
-  document.getElementById('birthday-age').textContent = `Age: ${userObj.dob.age}`
-  document.getElementById('registered-date').textContent = `Date: ${userObj.registered.date}`
-  document.getElementById('registered-age').textContent = `Age: ${userObj.registered.age}`
-  document.getElementById('phone-cell').textContent = `Cell: ${userObj.cell}`
-  document.getElementById('phone-mobile').textContent = `Mobile: ${userObj.phone}`
+  setTextContent('gender-text', userObj.gender)
+  setTextContent('name-text', Object.values(userObj.name).join(' '))
+  setTextContent('name-text', Object.values(userObj.name).join(' '))
+  setTextContent('location-city', `City: ${userObj.location.city}`)
+  setTextContent('location-country', `Country: ${userObj.location.country}`)
+  setTextContent('location-state', `State: ${userObj.location.state}`)
+  setTextContent('location-street-name', `Name: ${userObj.location.street.name}`)
+  setTextContent('location-street-number', `Number: ${userObj.location.street.number}`)
+  setTextContent('email-text', userObj.email)
+  setTextContent('login-md5', `MD5: ${userObj.login.md5}`)
+  setTextContent('login-pass', `Password: ${userObj.login.password}`)
+  setTextContent('login-salt', `Salt: ${userObj.login.salt}`)
+  setTextContent('login-sha1', `SHA1: ${userObj.login.sha1}`)
+  setTextContent('login-sha256', `SHA256: ${userObj.login.sha256}`)
+  setTextContent('login-username', `Username: ${userObj.login.username}`)
+  setTextContent('login-uuid', `UUID: ${userObj.login.uuid}`)
+  setTextContent('birthday-date', `Date: ${userObj.dob.date}`)
+  setTextContent('birthday-age', `Age: ${userObj.dob.age}`)
+  setTextContent('registered-date', `Date: ${userObj.registered.date}`)
+  setTextContent('registered-age', `Age: ${userObj.registered.age}`)
+  setTextContent('phone-cell', `Cell: ${userObj.cell}`)
+  setTextContent('phone-mobile', `Mobile: ${userObj.phone}`)
+}
+
+function setTextContent(id, text) {
+  let elem = document.getElementById(id)
+  elem.textContent = text
 }
