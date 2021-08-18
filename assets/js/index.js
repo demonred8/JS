@@ -1,8 +1,11 @@
 // Get Random user
 
 document.getElementById('button').onclick = getUser;
+document.getElementById('button-users').onclick = getUsers;
+document.getElementById('choose-user').onclick = chooseUser;
 
 let userObj = {}
+let tempArray = []
 
 async function getData() {
   await fetch('https://randomuser.me/api/')
@@ -10,12 +13,39 @@ async function getData() {
     .then(data => userObj = data.results[0])
 }
 
+async function getDataN() {
+  let tempObj = {}
+  await fetch('https://randomuser.me/api/')
+    .then((response) => response.json())
+    .then(data => tempObj = data.results[0])
+    return tempObj
+}
+
 async function getUser() {
   let button = document.getElementById('button-text')
   button.textContent = 'Loading...'
   await getData()
   setData()
-  button.textContent = 'Next user'
+  button.textContent = 'Next one user'
+}
+
+async function getUsers() {
+  console.log('test')
+  let users = document.getElementById('choose-users').value
+  let button = document.getElementById('button-get-users-text')
+  for (let i = 0; i < users; i++) {
+    button.textContent = 'Loading...' + ' ' + i
+    tempArray[i] = await getDataN()
+  }
+  console.log(tempArray)
+  button.textContent = 'Get Users'
+}
+
+function chooseUser() {
+  let user = document.getElementById('choose-one-user').value - 1
+  userObj = tempArray[user]
+  tempArray = []
+  setData()
 }
 
 function setData() {

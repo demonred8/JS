@@ -7,11 +7,15 @@ body {
     min-height: 150px;
 }
 
-#button {
+#button, #button-users, #choose-user {
     min-height: 150px;
     min-width: 250px;
 }
 
-#button-text {
+#button-text, #button-get-users-text, #button-get-user-text {
     font-size: 2rem;
+}
+
+#choose-users, #choose-one-user {
+    width: 50px;
 }
