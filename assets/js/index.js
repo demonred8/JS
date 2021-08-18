@@ -1,24 +1,24 @@
 // Get Random user
 
-document.getElementById('button').onclick = function () { getUser() };
+document.getElementById('button').onclick = getUser;
 
 let userObj = {}
 
 async function getData() {
   await fetch('https://randomuser.me/api/')
     .then((response) => response.json())
-    .then(data => userObj = data['results'][0])
+    .then(data => userObj = data.results[0])
 }
 
 async function getUser() {
   let button = document.getElementById('button-text')
-  button.innerHTML = 'Loading...'
+  button.textContent = 'Loading...'
   await getData()
-  await setData()
-  button.innerHTML = 'Next user'
+  setData()
+  button.textContent = 'Next user'
 }
 
-async function setData() {
+function setData() {
   let photo = document.getElementById('photo')
   photo.src = userObj.picture.large
 
