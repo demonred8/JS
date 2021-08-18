@@ -20,49 +20,68 @@ async function getUser() {
 
 async function setData() {
   let photo = document.getElementById('photo')
-  photo.src = userObj['picture']['large']
+  photo.src = userObj.picture.large
 
   let gender = document.getElementById('gender-text')
-  gender.innerHTML = userObj['gender']
+  gender.textContent = userObj.gender
 
   let fullname = document.getElementById('name-text')
-  fullname.innerHTML = Object.values(userObj['name']).join(' ')
+  fullname.textContent = Object.values(userObj.name).join(' ')
 
-  let location = document.getElementById('location-text')
-  location.innerHTML =
-    `<p>City: ${userObj['location']['city']}</p>
-   <p>Country: ${userObj['location']['country']}</p> 
-   <p>State: ${userObj['location']['state']}</p>
-   <hr>
-   <p>Street: </p>
-   <p>Name: ${userObj['location']['street']['name']}</p>
-   <p>Number: ${userObj['location']['street']['number']}</p>`
+  let locationCity = document.getElementById('location-city')
+  locationCity.textContent = `City: ${userObj.location.city}`
+
+  let locationCountry = document.getElementById('location-country')
+  locationCountry.textContent = `Country: ${userObj.location.country}`
+
+  let locationState = document.getElementById('location-state')
+  locationState.textContent = `State: ${userObj.location.state}`
+
+  let locationStreetName = document.getElementById('location-street-name')
+  locationStreetName.textContent = `Name: ${userObj.location.street.name}`
+
+  let locationStreetNumber = document.getElementById('location-street-number')
+  locationStreetNumber.textContent = `Number: ${userObj.location.street.number}`
 
   let email = document.getElementById('email-text')
-  email.innerHTML = userObj['email']
+  email.textContent = userObj.email
 
-  let login = document.getElementById('login-text')
-  login.innerHTML =
-    `<p>MD5: ${userObj['login']['md5']}</p>
-  <p>Password: ${userObj['login']['password']}</p> 
-  <p>Salt: ${userObj['login']['salt']}</p>
-  <p>SHA1: ${userObj['login']['sha1']}</p>
-  <p>SHA256: ${userObj['login']['sha256']}</p>
-  <p>Username: ${userObj['login']['username']}</p>
-  <p>UUID: ${userObj['login']['uuid']}</p>`
+  let loginMD5 = document.getElementById('login-md5')
+  loginMD5.textContent = `MD5: ${userObj.login.md5}`
 
-  let birthday = document.getElementById('birthday-text')
-  birthday.innerHTML =
-    `<p>Date: ${userObj['dob']['date']}</p>
-  <p>Age: ${userObj['dob']['age']}</p>`
+  let loginPass = document.getElementById('login-pass')
+  loginPass.textContent = `Password: ${userObj.login.password}`
 
-  let registration = document.getElementById('registered-text')
-  registration.innerHTML =
-    `<p>Date: ${userObj['registered']['date']}</p>
-  <p>Age: ${userObj['registered']['age']}</p>`
+  let loginSalt = document.getElementById('login-salt')
+  loginSalt.textContent = `Salt: ${userObj.login.salt}`
 
-  let phone = document.getElementById('phone-text')
-  phone.innerHTML =
-    `<p>Cell: ${userObj['cell']}
-  <p>Mobile: ${userObj['phone']}`
+  let loginSHA1 = document.getElementById('login-sha1')
+  loginSHA1.textContent = `SHA1: ${userObj.login.sha1}`
+
+  let loginSHA256 = document.getElementById('login-sha256')
+  loginSHA256.textContent = `SHA256: ${userObj.login.sha256}`
+
+  let loginUsername = document.getElementById('login-username')
+  loginUsername.textContent = `Username: ${userObj.login.username}`
+
+  let loginUUID = document.getElementById('login-uuid')
+  loginUUID.textContent = `UUID: ${userObj.login.uuid}`
+
+  let birthdayDate = document.getElementById('birthday-date')
+  birthdayDate.textContent = `Date: ${userObj.dob.date}`
+
+  let birthdayAge = document.getElementById('birthday-age')
+  birthdayAge.textContent = `Age: ${userObj.dob.age}`
+
+  let registrationDate = document.getElementById('registered-date')
+  registrationDate.textContent = `Date: ${userObj.registered.date}`
+
+  let registrationAge = document.getElementById('registered-age')
+  registrationAge.textContent = `Age: ${userObj.registered.age}`
+
+  let phoneCell = document.getElementById('phone-cell')
+  phoneCell.textContent = `Cell: ${userObj.cell}`
+
+  let phoneMobile = document.getElementById('phone-mobile')
+  phoneMobile.textContent = `Mobile: ${userObj.phone}`
 }
