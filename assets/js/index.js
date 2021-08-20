@@ -1,77 +1,131 @@
 // Get Random user
 
-document.getElementById('button').onclick = getUser;
-document.getElementById('button-users').onclick = getUsers;
-document.getElementById('choose-user').onclick = chooseUser;
+//a eshe y tebya tut kosyaк если я захочу убить твою кнопку то мне надо будте снять с неё обработчик вот этот
 
-let userObj = {}
-let tempArray = []
+document.getElementById('button').addEventListener('click', getUser)
 
-async function getData() {
-  await fetch('https://randomuser.me/api/')
-    .then((response) => response.json())
-    .then(data => userObj = data.results[0])
-}
+const userInput = document.getElementById('choose-users')
 
-async function getDataN() {
-  let tempObj = {}
-  await fetch('https://randomuser.me/api/')
-    .then((response) => response.json())
-    .then(data => tempObj = data.results[0])
-    return tempObj
-}
+const btnText = document.getElementById('button-text')
 
-async function getUser() {
-  let button = document.getElementById('button-text')
-  button.textContent = 'Loading...'
-  await getData()
-  setData()
-  button.textContent = 'Next one user'
-}
+userInput.addEventListener('change', textUserNumber)
 
-async function getUsers() {
-  console.log('test')
-  let users = document.getElementById('choose-users').value
-  let button = document.getElementById('button-get-users-text')
-  for (let i = 0; i < users; i++) {
-    button.textContent = 'Loading...' + ' ' + i
-    tempArray[i] = await getDataN()
+
+function textUserNumber() {
+  let usersNumber = Number(userInput.value)
+  console.log(usersNumber)
+  if (usersNumber === 1) {
+    btnText.textContent = `Get ${usersNumber} user`
   }
-  console.log(tempArray)
-  button.textContent = 'Get Users'
+  else {
+    btnText.textContent = `Get ${usersNumber} users`
+  }
 }
 
-function chooseUser() {
-  let user = document.getElementById('choose-one-user').value - 1
-  userObj = tempArray[user]
-  tempArray = []
-  setData()
+let users = []
+
+const asyncGetData = () => fetch('https://randomuser.me/api/')
+  .then(response => response.json())
+  .then(data => users.push(data.results[0]))
+
+function getUser() {
+  let usersNumber = Number(userInput.value)
+  users.length = 0
+
+  document.getElementById('users').replaceChildren()
+  
+  btnText.textContent = 'Loading...'
+  const fetchingPromises = new Array(usersNumber).fill(0).map(_v => asyncGetData())
+
+  Promise.all(fetchingPromises).then(v => {
+    users.forEach(v => setData(v)) 
+    textUserNumber()
+  })
 }
 
-function setData() {
-  document.getElementById('photo').src = getFromObj('picture.large')
-  setTextContent('gender-text', getFromObj('gender'))
-  setTextContent('name-text', Object.values(getFromObj('name')).join(' '))
-  setTextContent('name-text', Object.values(getFromObj('name')).join(' '))
-  setTextContent('location-city', `City: ${getFromObj('location.city')}`)
-  setTextContent('location-country', `Country: ${getFromObj('location.country')}`)
-  setTextContent('location-state', `State: ${getFromObj('location.state')}`)
-  setTextContent('location-street-name', `Name: ${getFromObj('location.street.name')}`)
-  setTextContent('location-street-number', `Number: ${getFromObj('location.street.number')}`)
-  setTextContent('email-text', getFromObj('email'))
-  setTextContent('login-md5', `MD5: ${getFromObj('login.md5')}`)
-  setTextContent('login-pass', `Password: ${getFromObj('login.password')}`)
-  setTextContent('login-salt', `Salt: ${getFromObj('login.salt')}`)
-  setTextContent('login-sha1', `SHA1: ${getFromObj('login.sha1')}`)
-  setTextContent('login-sha256', `SHA256: ${getFromObj('login.sha256')}`)
-  setTextContent('login-username', `Username: ${getFromObj('login.username')}`)
-  setTextContent('login-uuid', `UUID: ${getFromObj('login.uuid')}`)
-  setTextContent('birthday-date', `Date: ${getFromObj('dob.date')}`)
-  setTextContent('birthday-age', `Age: ${getFromObj('dob.age')}`)
-  setTextContent('registered-date', `Date: ${getFromObj('registered.date')}`)
-  setTextContent('registered-age', `Age: ${getFromObj('registered.age')}`)
-  setTextContent('phone-cell', `Cell: ${getFromObj('cell')}`)
-  setTextContent('phone-mobile', `Mobile: ${getFromObj('phone')}`)
+function createUserDiv(id) {
+  let div = document.createElement('div')
+  div.id = 'user ' + id
+  div.className = 'user box'
+  document.getElementById('users').append(div)
+}
+
+function createUserImg(id, obj, path) {
+  let img = document.createElement('img')
+  img.className = 'user img'
+  img.src = getFromObj(obj, path)
+  img.alt = 'User Photo'
+  document.getElementById('user ' + id).append(img)
+}
+
+// function createDisabledInput(id, obj, theme, path) {
+//   let input = document.createElement('input')
+//   // input.disabled = true
+//   let classes = input.classList
+//   classes.add('user')
+//   classes.add('input')
+//   input.defaultValue = theme + `${getFromObj(obj, path)}`
+//   document.getElementById('user ' + id).append(input)
+// }
+
+function createCategory(id, obj, theme, path) {
+  let div = createCategoryDiv()
+  let span = document.createElement('span')
+  let input = document.createElement('input')
+
+  span.className = 'user span'
+  input.className = 'user input'
+
+  span.textContent = theme
+  input.defaultValue = getFromObj(obj, path)
+
+  div.appendChild(span)
+  div.appendChild(input)
+  document.getElementById('user ' + id).append(div)
+}
+
+function createCategoryDiv() {
+  let div = document.createElement('div')
+  div.className = 'user category'
+  return div
+}
+
+function createUserName(id, obj, path) {
+  let div = createCategoryDiv()
+  let span = document.createElement('span')
+  let input = document.createElement('input')
+
+  span.className = 'user span'
+  input.className = 'user input'
+
+  span.textContent = 'Name: '
+  input.defaultValue = Object.values(getFromObj(obj, path)).join(' ')
+
+  div.appendChild(span)
+  div.appendChild(input)
+  document.getElementById('user ' + id).append(div)
+}
+
+function setData(userObj) {
+  let id = userObj.login.username
+  createUserDiv(id)
+  createUserImg(id, userObj, 'picture.large')
+  createCategory(id, userObj, 'Gender: ', 'gender')
+  createUserName(id, userObj, 'name')
+  createCategory(id, userObj, 'City: ', 'location.city')
+  createCategory(id, userObj, 'Country: ', 'location.country')
+  createCategory(id, userObj, 'State: ', 'location.state')
+  createCategory(id, userObj, 'Street name: ', 'location.street.name')
+  createCategory(id, userObj, 'Street number: ', 'location.street.number')
+  createCategory(id, userObj, 'E-Mail: ', 'email')
+  createCategory(id, userObj, 'Login: ', 'login.username')
+  createCategory(id, userObj, 'Password: ', 'login.password')
+  createCategory(id, userObj, 'Date of Birthday: ', 'dob.date')
+  createCategory(id, userObj, 'Age: ', 'dob.age')
+  createCategory(id, userObj, 'Date of Registration: ', 'dob.date')
+  createCategory(id, userObj, 'Registered: ', 'dob.age')
+  createCategory(id, userObj, 'Cell: ', 'cell')
+  createCategory(id, userObj, 'Mobile: ', 'phone')
 }
 
 function setTextContent(id, text) {
@@ -79,6 +133,33 @@ function setTextContent(id, text) {
   elem.textContent = text
 }
 
-function getFromObj(elem) {
-  return elem.split('.').reduce((o, i) => o[i], userObj)
+const getFromObj = (obj, elem) => elem.split('.').reduce((o, i) => o[i], obj)
+
+
+
+
+{
+  // function promiseTest() {
+  //   const p = new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       resolve() // вернуть успешное выполнение промиса спустя 3 секунды
+  //     }, 3000)
+  //   })
+
+  //   console.log('test')
+
+  //   p.then(() => {
+  //     console.log('Promise Finished') // После выполнения setTimeout
+  //   })
+  // }
+
+  // function doItAfter(seconds) {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => resolve(), seconds * 1000)
+  //   })
+  // }
+
+  // doItAfter(5)
+  //   .then(() => console.log('Do it!'))
+  //   .then(() => console.log('Do it After'))
 }
